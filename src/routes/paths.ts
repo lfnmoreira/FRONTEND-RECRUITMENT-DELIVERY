@@ -1,5 +1,5 @@
 export enum RoutePath {
   ROOT = "/",
-  QUESTIONS_LIST = "/questions",
-  QUESTION = "/questions/:id",
+  QUESTIONS = "/questions",
+  DETAILS = "/questions/:id",
 }

@@ -3,3 +3,4 @@ const URL =
 
 export const HEALTH = `${URL}/health`;
 export const QUESTIONS = `${URL}/questions`;
+export const DETAILS = `${URL}/questions/:id`;

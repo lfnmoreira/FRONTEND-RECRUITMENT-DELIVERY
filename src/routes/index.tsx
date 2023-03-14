@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { RoutePath } from "./paths";
 
-import List from "../pages/List";
+import Questions from "../pages/Questions";
 import Details from "../pages/Details";
 import Home from "../pages/Home";
 
@@ -11,11 +11,11 @@ export const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: RoutePath.QUESTIONS_LIST,
-    element: <List />,
+    path: RoutePath.QUESTIONS,
+    element: <Questions />,
   },
   {
-    path: RoutePath.QUESTION,
+    path: RoutePath.DETAILS,
     element: <Details />,
   },
 ]);

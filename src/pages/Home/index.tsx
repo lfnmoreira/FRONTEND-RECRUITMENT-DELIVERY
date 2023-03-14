@@ -15,7 +15,7 @@ function Home(): JSX.Element {
   useEffect(() => {
     if (data?.status === STATUS.OK && !hasCheckedHealth.current) {
       hasCheckedHealth.current = true;
-      navigate(RoutePath.QUESTIONS_LIST);
+      navigate(RoutePath.QUESTIONS);
     }
   }, [data]);
 
