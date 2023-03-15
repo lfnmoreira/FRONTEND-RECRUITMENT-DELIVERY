@@ -1,16 +1,27 @@
-import React from "react";
-import { useParams } from "react-router";
+import { memo, useEffect, useRef, useState } from "react";
+import { useParams, useNavigate } from "react-router";
 import { QUESTIONS } from "../../api";
 import Question from "../../components/Question";
-import useFetch from "../../hooks/useFetch";
 import { Question as QuestionType } from "../../types";
+import axios from 'axios';
 
 function Details(): JSX.Element {
   const { id } = useParams();
-  const { data } = useFetch<QuestionType>(`${QUESTIONS}/id`);
+  const navigate = useNavigate();
+  const hasFetched = useRef(false);
+
+  const [data, setData] = useState<QuestionType | undefined>(undefined)
+
+  useEffect(() => {
+    if (!hasFetched.current) {
+      hasFetched.current = true;
+      axios.get(`${QUESTIONS}/${id}`).then((res) => setData(res.data))
+    }
+  }, [])
 
   return (
     <div className="details">
+      <button onClick={() => navigate(-1)}>BACK</button>
       {
         data &&
         <Question
@@ -26,4 +37,4 @@ function Details(): JSX.Element {
   );
 }
 
-export default React.memo(Details);
+export default memo(Details);

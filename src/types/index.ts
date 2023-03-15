@@ -11,10 +11,6 @@ export enum STATUS {
   OK = "OK",
 }
 
-export interface Health {
-  status: STATUS | string;
-}
-
 export interface Choice {
   choice: string;
   votes: number

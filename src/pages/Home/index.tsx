@@ -1,29 +1,38 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { HEALTH } from "../../api";
-import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import { RoutePath } from "../../routes/paths";
-import { Health, STATUS } from "../../types";
-
-
+import { STATUS } from "../../types";
+import axios from 'axios';
 
 function Home(): JSX.Element {
-  const { data, error } = useFetch<Health>(HEALTH);
   const navigate = useNavigate();
-  const hasCheckedHealth = useRef(false);
+  const hasFetched = useRef(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  function getHealth() {
+    setIsLoading(true)
+    axios.get(HEALTH).then((res) => {
+      if (res.data?.status === STATUS.OK) {
+        navigate(`${RoutePath.QUESTIONS}?filter=FILTER`);
+      } else {
+        setIsLoading(false)
+      }
+    })
+  }
 
   useEffect(() => {
-    if (data?.status === STATUS.OK && !hasCheckedHealth.current) {
-      hasCheckedHealth.current = true;
-      navigate(RoutePath.QUESTIONS);
+    if (!hasFetched.current) {
+      hasFetched.current = true;
+      getHealth()
     }
-  }, [data]);
+  }, [])
 
   function renderFeedback() {
-    if (error || (data && data.status !== STATUS.OK)) {
-      return <p>Retry Action</p>;
+    if (isLoading) {
+      return <p>Loading...</p>;
     }
-    return <p>Loading...</p>;
+    return <button onClick={getHealth}>Retry Action</button>;
   }
 
   return <div className="Home">{renderFeedback()}</div>;
